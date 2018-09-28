@@ -6,6 +6,8 @@ import './editor.scss';
 import './style.scss';
 
 
+
+
 /**
  * Internal block libraries
  */
@@ -26,7 +28,6 @@ const {
 } = wp.components;
 
 
-
 /**
  * Register block
  */
@@ -36,7 +37,7 @@ export default registerBlockType(
         title: __('Image with link text on it'),
         description: __(''),
         category: 'common',
-        icon:'heart',
+        icon: 'heart',
 
         keywords: [],
         attributes: {
@@ -77,7 +78,7 @@ export default registerBlockType(
                 className, setAttributes, isSelected
             } = props;
             const onSelectImage = img => {
-                console.log (img);
+                console.log(img);
                 setAttributes({
                     imgID: img.id,
                     imgURL: img.sizes.large.url,
@@ -105,66 +106,68 @@ export default registerBlockType(
                 /></Fragment>
 
             return (
-                <Fragment>   <div className={className}>
+                <Fragment>
+                    <div className={className}>
 
 
+                        {!imgID ? (
+
+                            <MediaUpload
+                                onSelect={onSelectImage}
+                                type="image"
+                                value={imgID}
+                                render={({open}) => (
+                                    <Button
+                                        className={"button button-large"}
+                                        onClick={open}
+                                    >
+                                        {icons.upload}
+                                        {__(' Upload Image', '')}
+                                    </Button>
+                                )}
+                            >
+                            </MediaUpload>
 
 
-                    {!imgID ? (
+                        ) : (
 
-                        <MediaUpload
-                onSelect={onSelectImage}
-                type="image"
-                value={imgID}
-                render={({open}) => (
-                    <Button
-                        className={"button button-large"}
-                        onClick={open}
-                    >
-                        {icons.upload}
-                        {__(' Upload Image', '')}
-                    </Button>
-                )}
-            >
-            </MediaUpload>
+                            <Fragment>
+                                <img
+                                    src={imgURL}
+                                    alt={imgAlt}
+                                    className={'wp-image-'+imgID}
 
+                                />
+                                <div className="text-wrap"><h2 className="text">{text}</h2></div>
 
-                    ) : (
+                                {isSelected ? (
 
-                      <Fragment>
-                            <img
-                                src={imgURL}
-                                alt={imgAlt}
+                                    <Button
+                                        className="remove-image"
+                                        onClick={onRemoveImage}
+                                    >
+                                        {icons.remove}
+                                    </Button>
 
-                            />
-                          <div className="text-wrap"> <h2 className="text">{text}</h2></div>
+                                ) : null}
 
-                            {isSelected ? (
+                            </Fragment>
+                        )}
 
-                                <Button
-                                    className="remove-image"
-                                    onClick={onRemoveImage}
-                                >
-                                    {icons.remove}
-                                </Button>
-
-                            ) : null}
-
-                      </Fragment>
-                    )}
-
-                </div>
-          {isSelected && urlAndTextInput}</Fragment>
+                    </div>
+                    {isSelected && urlAndTextInput}</Fragment>
             );
-       },
+        },
         save: props => {
-            const {imgURL, imgAlt, url, text} = props.attributes;
+            const {imgID, imgURL, imgAlt, url, text} = props.attributes;
             return (<div>
                 <a href={url}> <img
                     src={imgURL}
                     alt={imgAlt}
+                    className={'wp-image-'+imgID}
                 /></a>
-                <div className="text-wrap"> <h2 className="text">{text}</h2></div></div>)
+                <div className="text-wrap"><h2 className="text">{text}</h2></div>
+            </div>)
 
         },
     },
