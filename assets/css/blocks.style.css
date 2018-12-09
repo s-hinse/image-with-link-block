@@ -1,7 +1,10 @@
 .wp-block-shinse-image-with-link {
   position: relative;
-  width: 400px;
-  height: 400px; }
+  height: 100%;
+  width: 100%;
+  max-width: 300px;
+  max-height: 300px;
+  overflow: hidden; }
   .wp-block-shinse-image-with-link .text-wrap {
     position: absolute;
     bottom: 0;
@@ -12,6 +15,7 @@
   .wp-block-shinse-image-with-link .text {
     display: table;
     font-family: "Cabin", Helvetica, sans-serif;
+    font-size: 18px;
     font-weight: 400;
     line-height: 1.25;
     letter-spacing: .03em;
@@ -23,3 +27,11 @@
     padding: 10px;
     color: #fff;
     border: none; }
+
+@media (max-width: 767px) {
+  .wp-block-shinse-image-with-link {
+    height: 85vw;
+    width: 85vw;
+    margin: auto; }
+    .wp-block-shinse-image-with-link .text {
+      font-size: 15px; } }
